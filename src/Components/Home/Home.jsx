@@ -9,15 +9,16 @@ import local_taxi from "../../assets/Icons/local_taxi.svg";
 import Populer from "./Populer";
 import Servicess from "./Servicess";
 import { TextField } from "@mui/material";
+import Aboutlk from "./Aboutlk";
+import Footer from "../Footer";
+import Button from "@mui/material/Button";
 
 export default function Home() {
   const refSearch = useRef(null);
   const [search, setSearch] = useState("");
-  const [searchSwitch, setSearchSwitch] = useState(false);
 
   const mainSearch = () => {
     if (search.length > 0) {
-      setSearchSwitch(true);
     }
     refSearch.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -63,7 +64,7 @@ export default function Home() {
                 />
                 <button
                   onClick={mainSearch}
-                  className="bg-mpurple px-6 py-3 font-semibold text-white"
+                  className="bg-mpurple px-6 py-3 font-semibold text-white "
                 >
                   Search
                 </button>
@@ -122,14 +123,11 @@ export default function Home() {
       </div>
       <Populer />
       <div ref={refSearch}>
-        <Servicess
-          searchKey={search}
-          setSearchSwitch={setSearchSwitch}
-          searchSwitch={searchSwitch}
-          search={search}
-          setSearch={setSearch}
-        />
+        <Servicess searchKey={search} search={search} setSearch={setSearch} />
       </div>
+      <Aboutlk />
+      <input className="flex justify-center m-8" placeholder="name" />
+      <Footer />
     </div>
   );
 }

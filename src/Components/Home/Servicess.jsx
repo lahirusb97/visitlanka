@@ -30,8 +30,7 @@ import LocationCard from "../Services/LocationCard";
 import TaxiCard from "../Services/TaxiCard";
 export default function Servicess({
   searchKey,
-  setSearchSwitch,
-  searchSwitch,
+
   search,
   setSearch,
 }) {
@@ -44,6 +43,8 @@ export default function Servicess({
   const [taxiData, setTaxiData] = useState([]);
   const [hotelsData, setHotelsData] = useState([]);
   const [filterLocation, setFilterLocation] = useState([]);
+  const [filtertaxi, setFiltertaxi] = useState([]);
+  const [filterHotel, setFilterHotel] = useState([]);
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -98,106 +99,112 @@ export default function Servicess({
   };
   const province = [
     {
-      Name: "Central Province",
+      Name: "Central",
       Img: central,
     },
     {
-      Name: "Eastern Province",
+      Name: "Eastern",
       Img: Eastern_Province,
     },
     {
-      Name: "North Central Province",
+      Name: "North Central",
       Img: North_Central,
     },
     {
-      Name: "North Western Province",
+      Name: "North Western",
       Img: North_Western,
     },
     {
-      Name: "Northern Province",
+      Name: "Northern",
       Img: Northern,
     },
     {
-      Name: "Sabaragamuwa Province",
+      Name: "Sabaragamuwa",
       Img: Sabaragamuwa,
     },
     {
-      Name: "Southern Province",
+      Name: "Southern",
       Img: Southern,
     },
     {
-      Name: "Uva Province",
+      Name: "Uva",
       Img: Uva,
     },
     {
-      Name: "Western Province",
+      Name: "Western",
       Img: Western_Province,
     },
   ];
 
   useEffect(() => {
     if (search.length === 0) {
-      // search.toLowerCase()
-      ///SEARCH START
-      setSearchSwitch(false);
+      const db = getFirestore();
+      const collectionRef = collection(db, "Location");
+
+      onSnapshot(collectionRef, (snapshot) => {
+        const items = [];
+
+        snapshot.forEach((doc) => {
+          items.push(doc.data());
+        });
+        setLocationData(items);
+        setFilterLocation(items);
+      });
+
+      const collectionRef2 = collection(db, "Taxie");
+
+      onSnapshot(collectionRef2, (snapshot) => {
+        const items = [];
+
+        snapshot.forEach((doc) => {
+          items.push(doc.data());
+        });
+        setTaxiData(items);
+        setFiltertaxi(items);
+      });
+
+      const collectionRef3 = collection(db, "Hotel");
+
+      onSnapshot(collectionRef3, (snapshot) => {
+        const items = [];
+
+        snapshot.forEach((doc) => {
+          items.push(doc.data());
+        });
+        setHotelsData(items);
+        setFilterHotel(items);
+      });
+      //
     }
-    if (searchSwitch && search.length > 0) {
-      if (value === "Locations") {
-        console.log("s");
-      } else if (value === "Taxies") {
-      } else if (value === "Hotels") {
-      }
-      ///SEARCH END
-    } else if (searchSwitch === false && search.length === 0) {
-      //get all Data
-      if (value === "Locations") {
-        const db = getFirestore();
-        const collectionRef = collection(db, "Location");
-
-        onSnapshot(collectionRef, (snapshot) => {
-          const items = [];
-
-          snapshot.forEach((doc) => {
-            items.push(doc.data());
-          });
-          setLocationData(items);
-        });
-      } else if (value === "Taxies") {
-        const db = getFirestore();
-        const collectionRef = collection(db, "Taxie");
-
-        onSnapshot(collectionRef, (snapshot) => {
-          const items = [];
-
-          snapshot.forEach((doc) => {
-            items.push(doc.data());
-          });
-          setTaxiData(items);
-        });
-      } else if (value === "Hotels") {
-        const db = getFirestore();
-        const collectionRef = collection(db, "Hotel");
-
-        onSnapshot(collectionRef, (snapshot) => {
-          const items = [];
-
-          snapshot.forEach((doc) => {
-            items.push(doc.data());
-          });
-          setHotelsData(items);
-        });
-      }
+  }, [search]);
+  useEffect(() => {
+    if (search.length > 0) {
+    } else {
+      setFilterHotel(hotelsData);
+      setFilterLocation(locationData);
+      setFiltertaxi(taxiData);
     }
-  }, [searchKey, value, search]);
+  }, [search]);
+
   const handleSearch = () => {
-    setSearchSwitch(true);
-    if (value === "Locations") {
-      console.log(locationData);
-    } else if (value === "Taxies") {
-    } else if (value === "Hotels") {
-    }
+    const specificDistrictData = Object.values(locationData).filter(
+      (item) => item.district === search.toLowerCase()
+    );
+    setFilterLocation(specificDistrictData);
+
+    const specificDistrictData2 = Object.values(taxiData).filter(
+      (item) => item.district === search.toLowerCase()
+    );
+
+    setFiltertaxi(specificDistrictData2);
+
+    const specificDistrictData3 = Object.values(hotelsData).filter(
+      (item) => item.district === search.toLowerCase()
+    );
+
+    setFilterHotel(specificDistrictData3);
   };
-  console.log(locationData);
+
   return (
     <div>
       <h1 className="text-center p-4 mt-4 text-2xl font-semibold text-textgray">
@@ -209,14 +216,34 @@ export default function Servicess({
             <div
               key={"s" + i}
               onClick={() => {
+                setSearch("");
+
                 setSelect(i);
+                const specificDistrictData = Object.values(locationData).filter(
+                  (item) => item.province === e["Name"].toLowerCase()
+                );
+                setFilterLocation(specificDistrictData);
+
+                const specificDistrictData2 = Object.values(taxiData).filter(
+                  (item) => item.province === e["Name"].toLowerCase()
+                );
+
+                setFiltertaxi(specificDistrictData2);
+
+                const specificDistrictData3 = Object.values(hotelsData).filter(
+                  (item) => item.province === e["Name"].toLowerCase()
+                );
+
+                setFilterHotel(specificDistrictData3);
               }}
               className={`p-4 h-52 ${
                 select === i ? "bg-white text-black" : "bg-gray-800 text-white"
               } `}
             >
               <img src={e["Img"]} className="w-28 m-auto" />
-              <h1 className="font-semibold text-center">{e["Name"]}</h1>
+              <h1 className="font-semibold text-center">
+                {e["Name"]} Province
+              </h1>
             </div>
           ))}
         </Slider>
@@ -273,20 +300,20 @@ export default function Servicess({
             Search
           </button>
         </div>
-        <div className="flex flex-wrap w-full">
+        <div className="flex flex-wrap w-full justify-center">
           {value === "Hotels"
-            ? hotelsData.map((e, i) => (
+            ? filterHotel.map((e, i) => (
                 <div key={"s" + i}>
                   <HotelCard data={e} />
                 </div>
               ))
             : value === "Locations"
-            ? locationData.map((e, i) => (
+            ? filterLocation.map((e, i) => (
                 <div key={"s" + i}>
                   <LocationCard data={e} />
                 </div>
               ))
-            : taxiData.map((e, i) => (
+            : filtertaxi.map((e, i) => (
                 <div key={"s" + i}>
                   <TaxiCard data={e} />
                 </div>

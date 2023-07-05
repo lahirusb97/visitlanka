@@ -75,9 +75,9 @@ export default function ServiceComp({ uid }) {
         const db = getFirestore();
         const dbref = doc(db, "Location", selectBox["Id"]);
         const docRef = await updateDoc(dbref, {
-          Name: name,
-          Discription: discription,
-          address: address,
+          Name: name.toLowerCase(),
+          Discription: discription.toLowerCase(),
+          address: address.toLowerCase(),
         });
 
         if (inputimg) {

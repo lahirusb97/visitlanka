@@ -70,6 +70,7 @@ export default function Login({ open, setOpen, setuserData, setIsOpen }) {
               type="email"
               label="Email"
               variant="outlined"
+              value={email}
             />
             <TextField
               onChange={(e) => setPassword(e.target.value)}
@@ -78,6 +79,7 @@ export default function Login({ open, setOpen, setuserData, setIsOpen }) {
               type="password"
               label="Password"
               variant="outlined"
+              value={password}
             />
           </div>
           <h4 className="italic font-black text-red-600">{errorH}</h4>

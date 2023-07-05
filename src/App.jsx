@@ -14,7 +14,9 @@ function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   const [open, setOpen] = useState(false);
+  const [openR, setOpenR] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
   const [userDAta, setuserData] = useState(null);
   const variants = {
     open: { opacity: 1, x: 0 },
@@ -38,6 +40,13 @@ function App() {
     };
   }, []);
 
+  const handleScroll = () => {
+    window.scrollTo({
+      top: window.innerHeight + 1000, // Scrolls down by 100vh
+      behavior: "smooth",
+    });
+  };
+  //All Navigation
   return (
     <>
       <div className="relative">
@@ -76,6 +85,7 @@ function App() {
                 <li
                   onClick={() => {
                     setIsOpen(false);
+                    handleScroll();
                   }}
                   className="cursor-pointer px-2 text-lg font-semibold md:pt-0 pt-4"
                 >
@@ -87,6 +97,7 @@ function App() {
                   <li
                     onClick={() => {
                       setIsOpen(false);
+                      setOpenR(true);
                     }}
                     className="cursor-pointer px-2 text-lg font-semibold md:pt-0 pt-4"
                   >
@@ -158,6 +169,7 @@ function App() {
           setIsOpen={setIsOpen}
           setuserData={setuserData}
         />
+        <Register open={openR} setOpen={setOpenR} setuserData={setuserData} />
         <Routes>
           <Route element={<ProtectedRoute userDAta={userDAta} />}>
             <Route path="/profile" element={<Profile />} />

@@ -27,15 +27,15 @@ import "react-toastify/dist/ReactToastify.css";
 export default function TaxiesFrom() {
   const notify = () => toast();
   const lkProvince = [
-    "Western Province",
-    "Central Province",
-    "Eastern Province",
-    "Northern Province",
-    "North Central Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
+    "Western",
+    "Central",
+    "Eastern",
+    "Northern",
+    "North Central",
+    "North Western",
+    "Sabaragamuwa",
+    "Southern",
+    "Uva",
   ];
   const LKdistricts = [
     "Ampara",
@@ -104,8 +104,8 @@ export default function TaxiesFrom() {
         const db = getFirestore();
         const docRef = await addDoc(collection(db, "Taxie"), {
           Name: Name,
-          province: province,
-          district: district,
+          province: province.toLowerCase(),
+          district: district.toLowerCase(),
           Travel: travelAials,
           mobile: mobile,
           userId: userId,
@@ -169,7 +169,6 @@ export default function TaxiesFrom() {
   console.log(travelAials);
   return (
     <div>
-      {" "}
       <div className="max-w-screen-xl m-auto">
         <TextField
           style={{ marginTop: "2rem" }}
@@ -179,7 +178,7 @@ export default function TaxiesFrom() {
           label="Taxies Name"
           type="text"
           variant="outlined"
-          value={name}
+          value={Name}
         />{" "}
         <TextField
           style={{ margin: "1rem 0", display: "block" }}

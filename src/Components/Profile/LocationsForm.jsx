@@ -24,15 +24,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function LocationsForm() {
   const lkProvince = [
-    "Western Province",
-    "Central Province",
-    "Eastern Province",
-    "Northern Province",
-    "North Central Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
+    "Western",
+    "Central",
+    "Eastern",
+    "Northern",
+    "North Central",
+    "North Western",
+    "Sabaragamuwa",
+    "Southern",
+    "Uva",
   ];
   const LKdistricts = [
     "Ampara",
@@ -107,11 +107,11 @@ export default function LocationsForm() {
       try {
         const db = getFirestore();
         const docRef = await addDoc(collection(db, "Location"), {
-          Name: Name,
-          province: province,
-          district: district,
-          discription: discription,
-          address: address,
+          Name: Name.toLowerCase(),
+          province: province.toLowerCase(),
+          district: district.toLowerCase(),
+          discription: discription.toLowerCase(),
+          address: address.toLowerCase(),
           userId: userId,
         });
         const storage = getStorage();

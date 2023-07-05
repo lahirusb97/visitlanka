@@ -28,15 +28,15 @@ export default function HotelForm() {
   const notify = () => toast();
 
   const lkProvince = [
-    "Western Province",
-    "Central Province",
-    "Eastern Province",
-    "Northern Province",
-    "North Central Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
+    "Western",
+    "Central",
+    "Eastern",
+    "Northern",
+    "North Central",
+    "North Western",
+    "Sabaragamuwa",
+    "Southern",
+    "Uva",
   ];
   const LKdistricts = [
     "Ampara",
@@ -100,11 +100,11 @@ export default function HotelForm() {
       try {
         const db = getFirestore();
         const docRef = await addDoc(collection(db, "Hotel"), {
-          Name: Name,
-          province: province,
-          district: district,
-          discription: discription,
-          address: address,
+          Name: Name.toLowerCase(),
+          province: province.toLowerCase(),
+          district: district.toLowerCase(),
+          discription: discription.toLowerCase(),
+          address: address.toLowerCase(),
           userId: userId,
         });
         const storage = getStorage();

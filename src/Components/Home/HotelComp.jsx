@@ -306,7 +306,7 @@ export default function HotelComp({ uid }) {
             <textarea
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Address"
-              className="w-full border p-3 border-gray-400 h-28 rounded-md my-2 h-24"
+              className="w-full border p-3 border-gray-400 h-28 rounded-md my-2"
             ></textarea>
             <textarea
               value={discription}

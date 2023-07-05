@@ -153,10 +153,10 @@ export default function TaxiComp({ uid }) {
         const db = getFirestore();
         const dbref = doc(db, "Taxie", selectBox["Id"]);
         const docRef = await updateDoc(dbref, {
-          Name: name,
-          province: province,
-          district: district,
-          Travel: travelAials,
+          Name: name.toLowerCase(),
+          province: province.toLowerCase(),
+          district: district.toLowerCase(),
+          Travel: travelAials.toLowerCase(),
           mobile: mobile,
         });
 
