@@ -76,7 +76,7 @@ export default function ServiceComp({ uid }) {
         const dbref = doc(db, "Location", selectBox["Id"]);
         const docRef = await updateDoc(dbref, {
           Name: name.toLowerCase(),
-          Discription: discription.toLowerCase(),
+          discription: discription.toLowerCase(),
           address: address.toLowerCase(),
         });
 
